@@ -229,17 +229,17 @@ class CF7_Live_Preview {
 
     ob_start();
 
-		?>
-		<div id="cf7lp-cf7md-ad" class="cf7lp-cf7md-ad postbox">
+    ?>
+    <div id="cf7lp-cf7md-ad" class="cf7lp-cf7md-ad postbox">
       <h3>Like the live preview?</h3>
       <div class="inside">
         <p>You might like my other plugin, Material Design for Contact Form 7. Add Google's "Material Design" style to your forms to make your website feel as responsive and interactive as an app.</p>
         <a href="<?php echo $url; ?>" target="_blank">More info</a>
       </div>
     </div>
-		<?php            
+    <?php            
         
-		$return = ob_get_contents();
+    $return = ob_get_contents();
     ob_end_clean();
 
     return $return;
@@ -316,16 +316,16 @@ class CF7_Live_Preview {
     $args['id'] = $this->get_preview_ID();
 
     $args['locale'] = isset( $_POST['wpcf7-locale'] )
-			? $_POST['wpcf7-locale'] : null;
+      ? $_POST['wpcf7-locale'] : null;
 
-		$args['form'] = isset( $_POST['wpcf7-form'] )
-			? $_POST['wpcf7-form'] : '';
+    $args['form'] = isset( $_POST['wpcf7-form'] )
+      ? $_POST['wpcf7-form'] : '';
 
     $args['messages'] = isset( $_POST['wpcf7-messages'] )
       ? $_POST['wpcf7-messages'] : array();
       
     $args['additional_settings'] = isset( $_POST['wpcf7-additional-settings'] )
-			? "demo_mode: on\r\n" . $_POST['wpcf7-additional-settings'] : 'demo_mode: on';
+      ? "demo_mode: on\r\n" . $_POST['wpcf7-additional-settings'] : 'demo_mode: on';
     
     $contact_form = wpcf7_save_contact_form( $args );
     

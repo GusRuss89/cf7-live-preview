@@ -197,7 +197,7 @@ class CF7_Live_Preview {
         </div>
         */ ?>
         <div class="cf7lp-toolbar-item">
-          <input id="cf7lp-background" class="cf7lp-option" name="cf7lp-background" type="text" data-option="background" value="<?php echo $background; ?>">
+          <input id="cf7lp-background" class="cf7lp-option" name="cf7lp-background" type="text" data-option="background" value="<?php echo esc_attr( $background ); ?>">
           <label for="cf7lp-background">
             Background
             <span class="dashicons dashicons-editor-help" title="Change the background colour to match your page."></span>
@@ -259,49 +259,6 @@ class CF7_Live_Preview {
 
 
   /**
-   * Deprecated: Ajax endpoint for updating the preview post
-   * This is a first attempt at manually updating the preview form
-   * It has been replaced by the more elegant save_preview
-   */
-  public function update_preview() {
-    if ( ! isset( $_POST['formData'] ) )
-      return;
-
-    echo '<pre>' . print_r( $_POST['formData']['wpcf7-messages'], true ) . '</pre>';
-    wp_die();
-
-    $form_data = $_POST['formData'];
-    $preview_post_id = $this->get_preview_ID();
-    $messages = array();
-
-    foreach( $form_data as $field ) {
-
-      // Update main form
-      if( 'wpcf7-form' === $field['name'] ) {
-        update_post_meta( $preview_post_id, '_form', wp_kses_post( $field['value'] ) );
-
-      // Update additional settings
-      } else if( 'wpcf7-additional-settings' === $field['name'] ) {
-        $additional_settings = "demo_mode: on\r\n" . $field['value'];
-        update_post_meta( $preview_post_id, '_additional_settings', $additional_settings );
-
-      // Build messages array
-      } else if( strpos( $field['name'], 'wpcf7-messages' ) === 0 ) {
-        preg_match( "/\[([^\]]*)\]/", $field['name'], $msg );
-        $messages[$msg[1]] = $field['value'];
-      }
-      
-    }
-
-    // Update messages
-    update_post_meta( $preview_post_id, '_messages', $messages );
-
-    echo 'Success';
-    wp_die();
-  }
-
-
-  /**
    * Save preview
    */
   public function save_preview() {
@@ -324,6 +281,7 @@ class CF7_Live_Preview {
     $args['messages'] = isset( $_POST['wpcf7-messages'] )
       ? $_POST['wpcf7-messages'] : array();
       
+    // Add demo_mode: on to any additional settings
     $args['additional_settings'] = isset( $_POST['wpcf7-additional-settings'] )
       ? "demo_mode: on\r\n" . $_POST['wpcf7-additional-settings'] : 'demo_mode: on';
     
@@ -339,24 +297,15 @@ class CF7_Live_Preview {
 
 
   /**
-   * Deprecated: Ajax endpoint for getting the form content from the preview post
-   */
-  public function get_preview() {
-    $preview_post_id = $this->get_preview_ID();
-    $html = '[contact-form-7 id="' . $preview_post_id . '"]';
-    echo apply_filters( 'the_content', $html );
-    wp_die();
-  }
-
-
-  /**
    * Ajax endpoint for updating options
    */
   public function update_option() {
     if ( ! isset( $_POST['option'] ) || ! isset( $_POST['value'] ) )
       return;
     
-    update_option( 'cf7lp_' . $_POST['option'], $_POST['value'] );
+    $option = 'cf7lp_' . sanitize_text_field( $_POST['option'] );
+    $value = sanitize_text_field( $_POST['value'] );
+    update_option( $option, $value );
     wp_die();
   }
 

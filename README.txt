@@ -45,7 +45,9 @@ If it doesn't work for you, please don't go straight for leaving a bad review. L
 OR go to 'Plugins' > 'Add new', and search for 'contact form 7 live preview' to install through the WordPress dashboard.
 
 == Screenshots ==
-1. Live preview window directly beneath form editor
+1. Live preview window directly beneath form editor.
+2. Works with your site's other scripts and styles.
+3. Even check your form's validation and success messages!
 
 == Changelog ==
 = 0.1.0 =

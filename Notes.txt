@@ -1,0 +1,16 @@
+=== HOW TO DEPLOY ===
+- Update Readme changelog
+- Update version number in main php file
+- Commit to git (not necessary for the process just don't forget to do it)
+- In wp-content/plugins/cf7-material-design, select and copy all online files, exclude:
+    - offline folder
+    - Notes.txt
+    - .git
+    - .gitignore
+    - .DS_Store
+    - LICENCE.md
+    - README.md
+- Delete the contents of _lp_plugin/trunk and paste files from step 10
+- Drag _lp_plugin folder onto terminal and do svn stat
+- If any files have been added (show up with a ?), add them using svn add [path] or (all but ignored) svn add --force .
+- svn ci -m "Commit msg"

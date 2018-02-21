@@ -117,7 +117,6 @@
 
     // Update iframe height
     function updateIframeHeight(height) {
-      console.log(height)
       $(iframe).css('height', height)
     }
 
@@ -149,7 +148,6 @@
       $formAction.val('save')
 
       $.post(admin_post_url, data, function(response) {
-        //ajaxDebug(response)
         if (refresh) {
           fullRefresh()
         } else {

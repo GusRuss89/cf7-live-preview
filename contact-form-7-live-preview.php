@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       Contact Form 7 Live Preview
  * Description:       Live preview your CF7 forms without leaving the form editor.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Author:            Angus Russell
  * Author URI:        https://profiles.wordpress.org/gusruss89/
  * License:           GPL-2.0+
@@ -26,6 +26,7 @@ if (!defined('ABSPATH')) die('-1');
 class CF7_Live_Preview {
 
   private $preview_post_id;
+  private $cf7md_active;
 
   /**
    * Constructor - add hooks here and define shortcode
@@ -34,6 +35,9 @@ class CF7_Live_Preview {
 
     // Debug
     //add_action( 'init', function() { echo '<pre>REQUEST' . print_r($_REQUEST, true ) . 'POST' . print_r($_POST, true) . '</pre>';});
+
+    // Set members
+    $this->cf7md_active = is_plugin_active( 'material-design-for-contact-form-7/cf7-material-design.php' ) || is_plugin_active( 'cf7-material-design/cf7-material-design.php');
 
     // Register activation/deactivation hooks
     register_activation_hook( __FILE__, array( $this, 'activate' ) );
@@ -113,7 +117,7 @@ class CF7_Live_Preview {
     // Localize the script with the html
     $localize = array(
       'live_preview_metabox' => $this->get_metabox_html(),
-      'cf7md_ad' => $this->get_cf7md_ad_html(),
+      'sidebar_metabox' => $this->get_sidebar_metabox(),
       'preview_form_id' => strval( $this->get_preview_ID() ),
       'admin_post_url' => admin_url( 'admin-post.php' )
     );
@@ -221,9 +225,9 @@ class CF7_Live_Preview {
 
 
   /**
-   * Get CF7MD Ad HTML
+   * Sidebar metabox HTML
    */
-  private function get_cf7md_ad_html() {
+  private function get_sidebar_metabox() {
     $plugin_name = 'material-design-for-contact-form-7';
     $url = esc_url( network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_name ) );
 
@@ -231,10 +235,13 @@ class CF7_Live_Preview {
 
     ?>
     <div id="cf7lp-cf7md-ad" class="cf7lp-cf7md-ad postbox">
-      <h3>Like the live preview?</h3>
+      <h3>CF7 Live Preview</h3>
       <div class="inside">
-        <p>You might like my other plugin, Material Design for Contact Form 7. Add Google's "Material Design" style to your forms to make your website feel as responsive and interactive as an app.</p>
-        <a href="<?php echo $url; ?>" target="_blank">More info</a>
+        <p>Like this plugin?<br><a href="https://wordpress.org/support/plugin/cf7-live-preview/reviews/?rate=5#new-post" target="_blank">Rate it &rarr;</a></p>
+        <p>Having problems?<br><a href="https://wordpress.org/support/plugin/cf7-live-preview" target="_blank">Get support &rarr;</a></p>
+        <?php if( ! $this->cf7md_active ) : ?>
+          <p>If you like Contact Form 7 Live Preview, you might like my other plugin, Material Design for Contact Form 7. Add Google's "Material Design" style to your forms to make your website feel as responsive and interactive as an app.<br><a href="<?php echo $url; ?>" target="_blank">More info &rarr;</a></p>
+        <?php endif; ?>
       </div>
     </div>
     <?php            

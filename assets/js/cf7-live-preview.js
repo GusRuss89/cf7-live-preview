@@ -17,7 +17,7 @@
     var preview_form_id = window.cf7lp_data.preview_form_id
     var admin_post_url = window.cf7lp_data.admin_post_url
     var $html = $(window.cf7lp_data.live_preview_metabox)
-    var $cf7mdAd = $(window.cf7lp_data.cf7md_ad)
+    var $sidebar_metabox = $(window.cf7lp_data.sidebar_metabox)
     var $editor = $('#wpcf7-form')
     var $adminForm = $('#wpcf7-admin-form-element')
     var intervalId
@@ -31,10 +31,8 @@
 
     // INITIALIZERS ===
 
-    // Add the cf7md ad if it doesn't seem active
-    if($('#cf7md-instructions-metabox').length === 0) {
-      $('#informationdiv').after($cf7mdAd)
-    }
+    // Add the sidebar metabox
+    $('#informationdiv').after($sidebar_metabox)
 
     // Colour picker
     $('#cf7lp-background').wpColorPicker({

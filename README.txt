@@ -36,6 +36,7 @@ If it doesn't work for you, please don't go straight for leaving a bad review. L
 * Works with most CF7 addons that affect the look and behaviour of your form
 
 = Tested with: =
+* [Material Design for Contact Form 7](https://wordpress.org/plugins/material-design-for-contact-form-7/)
 * Conditional Fields for Contact Form 7
 
 == Installation ==
@@ -50,5 +51,8 @@ OR go to 'Plugins' > 'Add new', and search for 'contact form 7 live preview' to 
 3. Even check your form's validation and success messages!
 
 == Changelog ==
+= 0.1.1 =
+* Add support and rating links to sidebar
+
 = 0.1.0 =
 * First release - beta

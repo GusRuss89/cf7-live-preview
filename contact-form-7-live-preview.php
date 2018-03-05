@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       Contact Form 7 Live Preview
  * Description:       Live preview your CF7 forms without leaving the form editor.
- * Version:           0.1.1
+ * Version:           0.1.2
  * Author:            Angus Russell
  * Author URI:        https://profiles.wordpress.org/gusruss89/
  * License:           GPL-2.0+
@@ -27,6 +27,7 @@ class CF7_Live_Preview {
 
   private $preview_post_id;
   private $cf7md_active;
+  private $cf7_active;
 
   /**
    * Constructor - add hooks here and define shortcode
@@ -37,33 +38,41 @@ class CF7_Live_Preview {
     //add_action( 'init', function() { echo '<pre>REQUEST' . print_r($_REQUEST, true ) . 'POST' . print_r($_POST, true) . '</pre>';});
 
     // Set members
+    $this->cf7_active = is_plugin_active( 'contact-form-7/wp-contact-form-7.php' );
     $this->cf7md_active = is_plugin_active( 'material-design-for-contact-form-7/cf7-material-design.php' ) || is_plugin_active( 'cf7-material-design/cf7-material-design.php');
 
     // Register activation/deactivation hooks
     register_activation_hook( __FILE__, array( $this, 'activate' ) );
     register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
     
-    // Add scripts and styles
-    add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts_and_styles' ) );
-    add_action( 'wp_enqueue_scripts', array( $this, 'add_frontend_scripts' ) );
+    if( $this->cf7_active ) {
 
-    // Admin notice for activation error
-    add_action( 'admin_notices', array( $this, 'alertNoPreviewPost' ) );
+      // Add scripts and styles
+      add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts_and_styles' ) );
+      add_action( 'wp_enqueue_scripts', array( $this, 'add_frontend_scripts' ) );
 
-    // Set the template for preview pane
-    add_filter( 'template_include', array( $this, 'preview_template' ) );
+      // Admin notice for activation error
+      add_action( 'admin_notices', array( $this, 'alertNoPreviewPost' ) );
 
-    // Don't show admin bar in preview pane
-    add_filter( 'show_admin_bar', array( $this, 'hide_admin_bar' ) );
+      // Ensure preview post is set on init
+      add_action( 'init', array( $this, 'create_preview_post' ) );
 
-    // Don't show preview post on forms screen
-    add_action( 'pre_get_posts', array( $this, 'hide_preview_post' ) );
+      // Set the template for preview pane
+      add_filter( 'template_include', array( $this, 'preview_template' ) );
 
-    // Ajax endpoints
-    //add_action( 'wp_ajax_cf7lp_update_preview', array( $this, 'update_preview' ) );
-    //add_action( 'wp_ajax_cf7lp_get_preview', array( $this, 'get_preview' ) );
-    add_action( 'wp_ajax_cf7lp_update_option', array( $this, 'update_option' ) );
-    add_action( 'admin_post_cf7lp_update_preview', array( $this, 'save_preview' ) );
+      // Don't show admin bar in preview pane
+      add_filter( 'show_admin_bar', array( $this, 'hide_admin_bar' ) );
+
+      // Don't show preview post on forms screen
+      add_action( 'pre_get_posts', array( $this, 'hide_preview_post' ) );
+
+      // Ajax endpoints
+      //add_action( 'wp_ajax_cf7lp_update_preview', array( $this, 'update_preview' ) );
+      //add_action( 'wp_ajax_cf7lp_get_preview', array( $this, 'get_preview' ) );
+      add_action( 'wp_ajax_cf7lp_update_option', array( $this, 'update_option' ) );
+      add_action( 'admin_post_cf7lp_update_preview', array( $this, 'save_preview' ) );
+
+    }
 
   }
 
@@ -78,17 +87,6 @@ class CF7_Live_Preview {
     add_option( 'cf7lp_entirepage', 0 );
     add_option( 'cf7lp_background', '#ffffff' );
     add_option( 'cf7lp_preview_post_id' );
-
-    // Create preview post
-    $preview_post_id = wp_insert_post(array(
-      'post_type' => 'wpcf7_contact_form',
-      'post_title' => 'CF7 Live Preview (Do not use or delete this form)'
-    ));
-    if ( is_wp_error( $preview_post_id ) ) {
-      set_transient( 'cf7lp_notice_no_preview_post', true, 60 );
-    } else {
-      update_option( 'cf7lp_preview_post_id', $preview_post_id );
-    }
 
   }
 
@@ -138,6 +136,29 @@ class CF7_Live_Preview {
 
 
   /**
+   * Create preview post
+   */
+  public function create_preview_post() {
+    if( !is_admin() )
+      return;
+
+    if( ! is_null( get_post( get_option( 'cf7lp_preview_post_id' ) ) ) )
+      return;
+
+    $preview_post_id = wp_insert_post(array(
+      'post_type' => 'wpcf7_contact_form',
+      'post_title' => 'CF7 Live Preview (Do not use or delete this form)'
+    ));
+    if ( is_wp_error( $preview_post_id ) ) {
+      set_transient( 'cf7lp_notice_no_preview_post', true, 60 );
+    } else {
+      update_option( 'cf7lp_preview_post_id', $preview_post_id );
+    }
+
+  }
+
+
+  /**
    * Add frontend scripts and styles
    */
   public function add_frontend_scripts() {
@@ -158,7 +179,7 @@ class CF7_Live_Preview {
   public function alertNoPreviewPost() {
     if ( get_transient( 'cf7lp_notice_no_preview_post' ) ) {
       $class = 'notice notice-error';
-      $message = __( 'Contact Form 7 Live Preview will not work because a new form could not be created on activation. Try deactivating and re-activating. If you see this message again, please let me know on the support forums.', 'cf7-live-preview' );
+      $message = __( 'Contact Form 7 Live Preview will not work because a new form could not be created. This should never happen. If you see this message, please let me know on the support forums.', 'cf7-live-preview' );
 
       printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
       delete_transient( 'cf7lp_notice_no_preview_post' );
@@ -354,6 +375,4 @@ class CF7_Live_Preview {
 if( !function_exists('is_plugin_active') ) {
   include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 }
-if( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
-  $cf7_live_preview = new CF7_Live_Preview();
-}
+$cf7_live_preview = new CF7_Live_Preview();

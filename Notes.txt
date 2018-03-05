@@ -2,7 +2,7 @@
 - Update Readme changelog
 - Update version number in main php file
 - Commit to git (not necessary for the process just don't forget to do it)
-- In wp-content/plugins/cf7-material-design, select and copy all online files, exclude:
+- In wp-content/plugins/contact-form-7-live-preview, select and copy all online files, exclude:
     - offline folder
     - Notes.txt
     - .git

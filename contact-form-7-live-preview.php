@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       Contact Form 7 Live Preview
  * Description:       Live preview your CF7 forms without leaving the form editor.
- * Version:           0.1.2
+ * Version:           0.1.3
  * Author:            Angus Russell
  * Author URI:        https://profiles.wordpress.org/gusruss89/
  * License:           GPL-2.0+
@@ -97,7 +97,7 @@ class CF7_Live_Preview {
   static function deactivate() {
 
     // Delete the preview post
-    $preview_post_id = $this->get_preview_ID();
+    $preview_post_id = get_option( 'cf7lp_preview_post_id' ); // Can't use $this here
     wp_delete_post( $preview_post_id, true );
 
   }

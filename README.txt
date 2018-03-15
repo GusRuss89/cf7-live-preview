@@ -51,6 +51,9 @@ OR go to 'Plugins' > 'Add new', and search for 'contact form 7 live preview' to 
 3. Even check your form's validation and success messages!
 
 == Changelog ==
+= 0.1.4 =
+* Fix a bug that displayed admin bar on front end
+
 = 0.1.3 =
 * Fix a deactivation bug
 

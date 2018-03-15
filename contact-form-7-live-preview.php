@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       Contact Form 7 Live Preview
  * Description:       Live preview your CF7 forms without leaving the form editor.
- * Version:           0.1.3
+ * Version:           0.1.4
  * Author:            Angus Russell
  * Author URI:        https://profiles.wordpress.org/gusruss89/
  * License:           GPL-2.0+
@@ -352,11 +352,11 @@ class CF7_Live_Preview {
   /**
    * Hide the admin bar on the preview page
    */
-  public function hide_admin_bar() {
+  public function hide_admin_bar( $show ) {
     if ( isset( $_GET['cf7lp-preview']) ) {
-      return false;
+      $show = false;
     }
-    return true;
+    return $show;
   }
 
 

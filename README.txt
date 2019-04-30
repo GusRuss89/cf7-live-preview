@@ -1,6 +1,6 @@
-=== Contact Form 7 Live Preview ===
-Contributors: gusruss89
-Tags: contact form 7, contact form 7 style, contact form 7 skin, contact form 7 templates, contact form 7 styling, contact form 7 theme, CF7 style, CF7, CF7 themes, CF7 templates, styling contact form, styling contact form 7, CF7 addon, contact form 7 addon, CF7 form messages styling, conditional fields for contact form 7
+=== Live Preview for Contact Form 7 ===
+Contributors: cf7addons, gusruss89
+Tags: contact form 7, contact form 7 style, contact form 7 preview, contactform7, contact form 7 theme
 Requires at least: 4.4
 Tested up to: 4.9
 Stable tag: trunk
@@ -51,6 +51,12 @@ OR go to 'Plugins' > 'Add new', and search for 'contact form 7 live preview' to 
 3. Even check your form's validation and success messages!
 
 == Changelog ==
+= 1.0.1 = 
+* Updates to comply with the "Contact Form 7" trademark policy
+
+= 1.0.0 =
+* Plugin has been stable long enough to be given 1.0.0 tag
+
 = 0.1.4 =
 * Fix a bug that displayed admin bar on front end
 

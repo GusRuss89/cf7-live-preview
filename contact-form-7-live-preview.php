@@ -1,16 +1,16 @@
 <?php
 /**
  *
- * @link              https://profiles.wordpress.org/gusruss89/
+ * @link              https://profiles.wordpress.org/cf7addons/
  * @since             1.0.0
  * @package           Cf7_Live_Preview
  *
  * @wordpress-plugin
- * Plugin Name:       Contact Form 7 Live Preview
+ * Plugin Name:       Live Preview for Contact Form 7
  * Description:       Live preview your CF7 forms without leaving the form editor.
- * Version:           0.1.4
- * Author:            Angus Russell
- * Author URI:        https://profiles.wordpress.org/gusruss89/
+ * Version:           1.0.1
+ * Author:            CF7 Addons
+ * Author URI:        https://profiles.wordpress.org/cf7addons/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       cf7-live-preview

@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @link              https://profiles.wordpress.org/cf7addons/
+ * @link              https://profiles.wordpress.org/contactform7addons/
  * @since             1.0.0
  * @package           Cf7_Live_Preview
  *
@@ -9,8 +9,8 @@
  * Plugin Name:       Live Preview for Contact Form 7
  * Description:       Live preview your CF7 forms without leaving the form editor.
  * Version:           1.0.1
- * Author:            CF7 Addons
- * Author URI:        https://profiles.wordpress.org/cf7addons/
+ * Author:            Addons for Contact Form 7
+ * Author URI:        https://profiles.wordpress.org/contactform7addons/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       cf7-live-preview

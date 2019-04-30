@@ -1,5 +1,5 @@
 === Live Preview for Contact Form 7 ===
-Contributors: cf7addons, gusruss89
+Contributors: contactform7addons, gusruss89
 Tags: contact form 7, contact form 7 style, contact form 7 preview, contactform7, contact form 7 theme
 Requires at least: 4.4
 Tested up to: 4.9
@@ -14,7 +14,7 @@ View a live preview of your form as you're building it. Contact Form 7's form ta
 
 View a live preview of your form as you're building it.
 
-= Contact Form 7 =
+= Contact Form 7 Preview =
 Contact Form 7 is great, but building your forms using form tags can be painful and slow when you have to constantly save, switch tabs and refresh to see your changes.
 
 Contact Form 7 Live Preview relieves this pain by displaying a live preview of your form directly underneath the form editor.

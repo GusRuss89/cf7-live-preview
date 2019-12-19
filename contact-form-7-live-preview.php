@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       Live Preview for Contact Form 7
  * Description:       Live preview your CF7 forms without leaving the form editor.
- * Version:           1.0.1
+ * Version:           1.1.0
  * Author:            Addons for Contact Form 7
  * Author URI:        https://profiles.wordpress.org/contactform7addons/
  * License:           GPL-2.0+
@@ -70,7 +70,7 @@ class CF7_Live_Preview {
       //add_action( 'wp_ajax_cf7lp_update_preview', array( $this, 'update_preview' ) );
       //add_action( 'wp_ajax_cf7lp_get_preview', array( $this, 'get_preview' ) );
       add_action( 'wp_ajax_cf7lp_update_option', array( $this, 'update_option' ) );
-      add_action( 'admin_post_cf7lp_update_preview', array( $this, 'save_preview' ) );
+      add_action( 'wp_ajax_cf7lp_update_preview', array( $this, 'save_preview' ) );
 
     }
 
@@ -85,8 +85,9 @@ class CF7_Live_Preview {
     // Default options
     add_option( 'cf7lp_autoreload', 1 );
     add_option( 'cf7lp_entirepage', 0 );
-    add_option( 'cf7lp_background', '#ffffff' );
-    add_option( 'cf7lp_preview_post_id' );
+	add_option( 'cf7lp_background', '#ffffff' );
+	add_option( 'cf7lp_width', '800' );
+	add_option( 'cf7lp_preview_post_id' );
 
   }
 
@@ -199,7 +200,8 @@ class CF7_Live_Preview {
 
     $autoreload = get_option( 'cf7lp_autoreload' );
     $entirepage = get_option( 'cf7lp_entirepage' );
-    $background = get_option( 'cf7lp_background' );
+	$background = get_option( 'cf7lp_background' );
+	$width      = get_option( 'cf7lp_width' );
 
     ?>
     <div id="cf7lp-metabox" class="cf7lp-metabox">
@@ -222,12 +224,16 @@ class CF7_Live_Preview {
         </div>
         */ ?>
         <div class="cf7lp-toolbar-item">
-          <input id="cf7lp-background" class="cf7lp-option" name="cf7lp-background" type="text" data-option="background" value="<?php echo esc_attr( $background ); ?>">
-          <label for="cf7lp-background">
+			<label for="cf7lp-background">
             Background
             <span class="dashicons dashicons-editor-help" title="Change the background colour to match your page."></span>
           </label>
+		  <input id="cf7lp-background" class="cf7lp-option" name="cf7lp-background" type="text" data-option="background" value="<?php echo esc_attr( $background ); ?>">
         </div>
+		<div class="cf7lp-toolbar-item">
+			<label for="cf7lp-width">Width</label>
+			<input type="range" min="320" max="1024" class="cf7lp-option" value="<?php echo esc_attr( $width ); ?>" data-option="width" id="cf7lp-width" />
+		</div>
       </div>
       <iframe id="cf7lp-preview" class="cf7lp-iframe" src="<?php echo $iframe_url; ?>"></iframe>
       <div class="cf7lp-explainer">
@@ -293,21 +299,30 @@ class CF7_Live_Preview {
     if( ! isset( $_POST['wpcf7-form'] ) ) {
       echo 'Something went wrong';
       wp_die();
-    }
+	}
 
     // This stuff is based on wpcf7_load_contact_form_admin
     // function in contact-form-7/admin/admin.php 
     $args = array();
     $args['id'] = $this->get_preview_ID();
 
-    $args['locale'] = isset( $_POST['wpcf7-locale'] )
-      ? $_POST['wpcf7-locale'] : null;
+    $args['title'] = isset( $_POST['post_title'] )
+			? $_POST['post_title'] : null;
 
-    $args['form'] = isset( $_POST['wpcf7-form'] )
-      ? $_POST['wpcf7-form'] : '';
+	$args['locale'] = isset( $_POST['wpcf7-locale'] )
+		? $_POST['wpcf7-locale'] : null;
 
-    $args['messages'] = isset( $_POST['wpcf7-messages'] )
-      ? $_POST['wpcf7-messages'] : array();
+	$args['form'] = isset( $_POST['wpcf7-form'] )
+		? $_POST['wpcf7-form'] : '';
+
+	$args['mail'] = isset( $_POST['wpcf7-mail'] )
+		? $_POST['wpcf7-mail'] : array();
+
+	$args['mail_2'] = isset( $_POST['wpcf7-mail-2'] )
+		? $_POST['wpcf7-mail-2'] : array();
+
+	$args['messages'] = isset( $_POST['wpcf7-messages'] )
+		? $_POST['wpcf7-messages'] : array();
       
     // Add demo_mode: on to any additional settings
     $args['additional_settings'] = isset( $_POST['wpcf7-additional-settings'] )

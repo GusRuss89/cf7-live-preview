@@ -51,6 +51,11 @@ OR go to 'Plugins' > 'Add new', and search for 'contact form 7 live preview' to 
 3. Even check your form's validation and success messages!
 
 == Changelog ==
+= 1.1.0 =
+* Fixed autoreloading
+* Fixed the JavaScript alert asking if you want to save before leaving
+* Added a width slider
+
 = 1.0.1 = 
 * Updates to comply with the "Contact Form 7" trademark policy
 

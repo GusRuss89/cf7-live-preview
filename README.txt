@@ -2,7 +2,7 @@
 Contributors: contactform7addons, gusruss89
 Tags: contact form 7, contact form 7 style, contact form 7 preview, contactform7, contact form 7 theme
 Requires at least: 4.4
-Tested up to: 4.9
+Tested up to: 5.3
 Stable tag: trunk
 Donate link: https://www.paypal.me/AngusRussell
 License: GPL-2.0+

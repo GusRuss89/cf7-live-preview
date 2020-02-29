@@ -51,6 +51,9 @@ OR go to 'Plugins' > 'Add new', and search for 'contact form 7 live preview' to 
 3. Even check your form's validation and success messages!
 
 == Changelog ==
+= 1.2.0 =
+* Fixed a security issue allowing logged in users without the correct privileges to update the hidden contact form.
+
 = 1.1.0 =
 * Fixed autoreloading
 * Fixed the JavaScript alert asking if you want to save before leaving

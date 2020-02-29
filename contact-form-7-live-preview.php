@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       Live Preview for Contact Form 7
  * Description:       Live preview your CF7 forms without leaving the form editor.
- * Version:           1.1.0
+ * Version:           1.2.0
  * Author:            Addons for Contact Form 7
  * Author URI:        https://profiles.wordpress.org/contactform7addons/
  * License:           GPL-2.0+
@@ -295,19 +295,31 @@ class CF7_Live_Preview {
   /**
    * Save preview
    */
-  public function save_preview() {
-    if( ! isset( $_POST['wpcf7-form'] ) ) {
+  public function save_preview() {		
+	if( ! isset( $_POST['wpcf7-form'] ) ) {
       echo 'Something went wrong';
       wp_die();
 	}
 
+	// Get post ID
+	$post_id = $_POST['post_ID'];
+
+	// Check user permissions
+	if( ! current_user_can( 'wpcf7_edit_contact_form', $post_id ) ) {
+		wp_die( __( 'You are not allowed to edit this item.', 'contact-form-7' ) );
+	}
+
+	// Verify CF7's nonce field
+	check_ajax_referer( 'wpcf7-save-contact-form_' . $post_id );
+
     // This stuff is based on wpcf7_load_contact_form_admin
-    // function in contact-form-7/admin/admin.php 
+	// function in contact-form-7/admin/admin.php
+	// Sanitization is handled by CF7
     $args = array();
     $args['id'] = $this->get_preview_ID();
 
     $args['title'] = isset( $_POST['post_title'] )
-			? $_POST['post_title'] : null;
+		? $_POST['post_title'] : null;
 
 	$args['locale'] = isset( $_POST['wpcf7-locale'] )
 		? $_POST['wpcf7-locale'] : null;
